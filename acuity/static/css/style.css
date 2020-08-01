@@ -1,0 +1,49 @@
+#content {
+    padding: 5px;
+}
+	
+.text_input {
+    height: 65px;
+    width: 58%;
+    padding: 12px;
+    border-radius: 10px;
+    background-color: #f0f7f7;
+}
+
+.heading {
+    margin: 20px;
+    color: #728282;
+    font-family: verdana;
+    font-size: 40px;
+}
+
+#fd_back {
+    color: #444;
+    font-family: verdana;
+    font-size: 20px;
+    color: #909999;
+}
+
+.fd_text {
+    padding: 2px;
+    height: 40px;
+    width: 100%;
+    border-radius: 6px;
+    background-color: white;
+}
+
+.btn {
+    background-color: #14adb5;
+    color: white;
+}
+
+.wrapper {
+    max-width: 450px; 
+    margin: auto;
+}
+
+#result {
+    color: #7b7b7b; 
+    font-family: arial; 
+    text-align: center;
+}
