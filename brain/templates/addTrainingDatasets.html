@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add Training Dataset</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+    #nav-training-datasets{
+        color: #ffffff;
+    }
+    .form-dashboard {
+    	border: 2px solid #0b618f;
+    	border-radius: 20px;
+    	margin-top: 30px;
+    	margin-bottom: 35px;
+    }
+    body {
+        overflow-x: hidden; //horizontal   
+    }
+
+label{
+	float:left;
+	color: #727272;
+	font-weight: bold;
+}
+</style>
+</head>
+<body>
+{% if session['u-type']=='super-admin' %}
+{% include 'navbar_super_admin.html' %}
+{% else %}
+{% include 'navbar_main.html' %}
+{% endif %}
+
+<div class="row">
+<div class="col-sm-2"></div>
+<!-- Material form contact -->
+<!-- Default form contact -->
+<div class="col-sm-8">
+<form class="text-center form-dashboard p-5" action="{{ url_for('add_td_confirm')}}" method= "post" id="add-form" enctype="multipart/form-data" >
+                <div class="row">
+                    <div class="col-sm-12" style="color:#1a5487;font-size :2em;"><h2>Upload Training Dataset</h2></div>
+                    
+                </div>
+
+  <div >
+    <div class="row">
+		<div class="col-sm-4">
+			<label> Training Data Name:</label>
+		</div>
+		<div class="col-sm-8">
+			<input type="text" id="local-name" name= "td-name" class="form-control mb-4" placeholder="Name" required>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-4">
+			<label>Thumb Nail Image:</label>
+		</div>
+		<div class="col-sm-8">
+			<input type="file" id="local-thumbImage" name= "thumb-nail" class="form-control mb-4" placeholder="Thumb-Image" onchange="ValidateSingleImage(this);" ><!-- onchange="previewFile()"-->
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-4">
+			<label>Input File:</label>
+		</div>
+		<div class="col-sm-8">
+			<input type="file" id="local-inputFile" name= "td-file" class="form-control mb-4" placeholder="Input-File" onchange="ValidateSingleInput(this);"><!-- onchange="previewFile()"-->
+			<!-- Sample Training Dataset file -->
+			<p style="color: #515151;"><i> To download sample Training
+			Dataset file, <a href="{{url_for('download_sample_training_dataset')}}">click here.</a></i></p><br>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-4">
+			<label>Description:</label>
+		</div>
+		<div class="col-sm-8">
+			<div class="form-group">
+				<textarea class="form-control rounded-0" id="local-desc" name="td-desc" rows="3" placeholder="Message"></textarea>
+			</div>
+		</div>
+	</div>
+  </div>
+
+<br/><button class="btn btn-info btn-block" type="submit">Upload</button>	
+
+</form>
+</div>
+</div>
+{% include 'footer_main.html' %}
+</body>
+</html>
+
+
+<script>
+var _validFileExtensions1 = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];    
+function ValidateSingleImage(oInput) {
+    if (oInput.type == "file") {
+        var sFileName = oInput.value;
+         if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFileExtensions1.length; j++) {
+                var sCurExtension = _validFileExtensions1[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
+             
+            if (!blnValid) {
+                alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions1.join(", "));
+                oInput.value = "";
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+
+	
+	var _validFileExtensions2 = [".json"];    
+function ValidateSingleInput(oInput) {
+    if (oInput.type == "file") {
+        var sFileName = oInput.value;
+         if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFileExtensions2.length; j++) {
+                var sCurExtension = _validFileExtensions2[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
+             
+            if (!blnValid) {
+                alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions2.join(", "));
+                oInput.value = "";
+                return false;
+            }
+        }
+    }
+    return true;
+}
+</script> 	
