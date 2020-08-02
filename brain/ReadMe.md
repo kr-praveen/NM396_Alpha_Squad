@@ -45,12 +45,12 @@ The computational power is the most important dependency of the software. If the
       x. NLTK  
       xi. Pymysql  
 
-## 🚀&nbsp; Working
+## 🚀&nbsp; Installation Guide
 1. Clone the repository in your system.
 
 2. Unzip the folder and extract the files.   
 
-3. Open the sypder. Now, Change your directory to the cloned repo.  
+3. Open the sypder or any python web framework IDE. Now, Set the working directory path as the root folder of the cloned repo.  
 
 4. Now open app.py file and run it.
 
