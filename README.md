@@ -44,7 +44,7 @@ __Dependencies / Show Stopper:__
 • Domain-specific dataset for training purpose  
 • Computational power  
 
-<p align="center"><img src="" width="700" height="400"></p>
+<p align="center"><img src="https://github.com/kr-praveen/NM396_Alpha_Squad/blob/development1/readme_img/use%20case.png" width="700" height="400"></p>
 
 ## Architecture Diagram  
-<p align="center"><img src="" width="700" height="400"></p>
+<p align="center"><img src="https://github.com/kr-praveen/NM396_Alpha_Squad/blob/development1/readme_img/architecture%20diag.png" width="700" height="400"></p>
