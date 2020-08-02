@@ -25,9 +25,9 @@ Following hardware requirements are needed for smooth deployment of the software
   Anaconda (Spyder)  
   
 2. __Local System should have the following software:__  
-   Any Browser (Chrome, Firefox, Safari, Opera, IE, Microsoft Edge, etc.)
-   MS-Excel or Google Docs
-   Adobe PDF Viewer  
+   Any Browser (Chrome, Firefox, Safari, Opera, IE, Microsoft Edge, etc.)  
+   MS-Excel or Google Docs  
+   Adobe PDF Viewer    
    
 The computational power is the most important dependency of the software. If the computation power of the environment provided for the software is high, the performance of the software will abruptly increase in a similar proportion.
 
@@ -35,15 +35,15 @@ The computational power is the most important dependency of the software. If the
   Anaconda (Python) Libraries and Packages  
       - [Flask](https://flask.palletsprojects.com/en/1.1.x/)  
       - [Keras](https://keras.io/)  
-      - [TensorFlow](https://www.tensorflow.org/) 
+      - [TensorFlow](https://www.tensorflow.org/)   
       - [Scikit Learn](https://scikit-learn.org/stable/user_guide.html)  
-      - [Numpy](https://numpy.org/)
-      - [Pandas](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html)  
-      - [Matplotlib](https://matplotlib.org/)  
-      - [Wordnet](https://wordnet.princeton.edu/documentation)  
-      - [Pickle](https://docs.python.org/3/library/pickle.html)   
-      - [NLTK](https://www.nltk.org/_modules/nltk/corpus/reader/wordnet.html)  
-      - [Pymysql](https://pymysql.readthedocs.io/en/latest/)  
+      - [Numpy](https://numpy.org/)  
+      - [Pandas](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html)    
+      - [Matplotlib](https://matplotlib.org/)    
+      - [Wordnet](https://wordnet.princeton.edu/documentation)    
+      - [Pickle](https://docs.python.org/3/library/pickle.html)     
+      - [NLTK](https://www.nltk.org/_modules/nltk/corpus/reader/wordnet.html)    
+      - [Pymysql](https://pymysql.readthedocs.io/en/latest/)    
 
 ## 🚀&nbsp; Installation Guide
 1. Clone the repository in your system.
