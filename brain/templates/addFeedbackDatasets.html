@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Feedback Dataset</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script>
+function previewFile() 
+{
+  var preview = document.querySelector('img');
+  var file    = document.querySelector('input[type=file]').files[0];
+  var reader  = new FileReader();
+
+  reader.onloadend = function () 
+  {
+    preview.src = reader.result;
+  }
+
+  if (file) 
+  {
+    reader.readAsDataURL(file);
+  }
+  else 
+  {
+    preview.src = "";
+  }
+}
+
+</script>
+<style>
+    #nav-feedback-datasets{
+        color: #ffffff;
+    }
+.form-dashboard {
+	border: 2px solid #0b618f;
+	border-radius: 20px;
+	margin-top: 30px;
+	margin-bottom: 35px;
+}
+
+label{
+	float:left;
+	color: #727272;
+	font-weight: bold;
+}
+</style>
+</head>
+<body>
+    {% if session['u-type']=='super-admin' %}
+    {% include 'navbar_super_admin.html' %}
+    {% else %}
+    {% include 'navbar_main.html' %}
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <form class="text-center form-dashboard p-5" action="{{url_for('add_fd_confirm')}}" method= "post" id="add-Training-data-form" enctype="multipart/form-data">
+                <p class="h4 mb-4" style="color:#1a5487;font-size :2em;">Upload Feedback Dataset</p>
+
+                <!-- Name -->
+            	<div class="row">
+            		<div class="col-sm-4">
+            			<label> File Data Name:</label>
+            		</div>
+            		<div class="col-sm-8">
+            			<input type="text" id="defaultContactFormName" class="form-control mb-4" placeholder="Name" name = "fd-name">
+            		</div>
+            	</div>
+            	
+            	
+            	<!-- Thumb-Imgage -->
+            	<div class="row">
+            		<div class="col-sm-4">
+            			<label>Thumb Nail Image:</label>
+            		</div>
+            		<div class="col-sm-8">
+            			<input type="file" id="thumbImage" class="form-control mb-4" placeholder="Thumb-Image" onchange="ValidateSingleImage(this);" name = "thumb-nail"><!-- onchange="previewFile()"-->
+            		</div>
+            	</div>
+	
+	
+                <!-- Training Dataset -->
+            	<div class="row">
+            		<div class="col-sm-4">
+            			<label>Training DataSet:</label>
+            		</div>
+            		<div class="col-sm-8">
+            			<select class="browser-default custom-select mb-4" name = "td-id">
+            				
+            				{% for val in  dict_training_data%}
+                				<option value = {{val['ID']}}>{{val['Name']}}</option>
+            				{% endfor %}
+            				
+            			</select>
+            		</div>
+            	</div>
+
+                <!-- feedback-file -->
+            	<div class="row">
+            		<div class="col-sm-4">
+            			<label>Input File:</label>
+            		</div>
+            		<div class="col-sm-8">
+            			<input type="file" name ="fd-file" id="Inputfile" class="form-control mb-4" placeholder="Input-File" onchange="ValidateSingleInput(this);"><!-- onchange="previewFile()"-->
+            			<!-- Sample Feedback Dataset file -->
+						<p style="color: #515151;"><i> To download sample Feedback
+						Dataset file, <a href="{{url_for('download_sample_feedback_dataset')}}">click here.</a></i></p><br>
+					</div>
+            	</div>
+				
+            	<!-- desc -->
+                <div class="row">
+            		<div class="col-sm-4">
+            			<label>Description:</label>
+            		</div>
+            		<div class="col-sm-8">
+            			<div class="form-group">
+            				<textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" placeholder="Message" name = "fd-desc"></textarea>
+            			</div>
+            		</div>
+            	</div>
+                <br>
+                <div>
+                   <div class="row">
+					   <div class="col-sm-4">
+					        <label>Storage Type:</label>
+					   </div>
+                       <div class ="col-sm-8">
+						   <label class="radio-inline" style="font-weight: normal; font-size: 18px; margin-right: 30%;">
+							  <input type="radio" name="cloud_local" value="cloud" required> Cloud
+							</label>
+							<label class="radio-inline" style="font-weight: normal; font-size: 18px;">
+								<input type="radio" name="cloud_local"  value="local" required> Local
+							</label>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+            	</div>
+				
+				
+            	<p id="error-msg" style="color:red;"></p>
+                <br>
+                <!-- Send button -->
+                <button class="btn btn-info btn-block" type="submit">Upload</button>
+            </form>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    
+    {% include 'footer_main.html' %}
+</body>
+</html>
+
+
+<script>
+var _validFileExtensions1 = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];    
+function ValidateSingleImage(oInput) {
+    if (oInput.type == "file") {
+        var sFileName = oInput.value;
+         if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFileExtensions1.length; j++) {
+                var sCurExtension = _validFileExtensions1[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
+             
+            if (!blnValid) {
+                alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions1.join(", "));
+                oInput.value = "";
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+
+	
+	var _validFileExtensions2 = [".json"];    
+function ValidateSingleInput(oInput) {
+    if (oInput.type == "file") {
+        var sFileName = oInput.value;
+         if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFileExtensions2.length; j++) {
+                var sCurExtension = _validFileExtensions2[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
+             
+            if (!blnValid) {
+                alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions2.join(", "));
+                oInput.value = "";
+                return false;
+            }
+        }
+    }
+    return true;
+}
+</script> 
