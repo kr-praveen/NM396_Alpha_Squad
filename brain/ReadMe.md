@@ -4,7 +4,7 @@
 
 ## 1. Environment   
 
- __Hardware Requirements__
+ * __Hardware Requirements__
 
 Following hardware requirements are needed for smooth deployment of the software –
 1. __Hosted Server with the following configurations:__
@@ -15,7 +15,7 @@ Following hardware requirements are needed for smooth deployment of the software
  
 3. Printer  
 
-  __Software Requirements__  
+  * __Software Requirements__  
   
   Following software requirements are needed to set-up a favourable environment for the software –  
   
