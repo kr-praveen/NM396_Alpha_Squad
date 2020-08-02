@@ -8,7 +8,7 @@ Sentiment Analysis from text feedback - ISRO PS - SIH 2020.
 * __PS Number :__ NM396
 * __Problem Statement :__ Sentiment Analysis from text feedback
 
-## Idea   
+## :bulb: Idea   
 * In our software, we propose a hybrid approach to classify and analyze sentiments from user-feedbacks. This approach is a combination of ML-based and Lexicon-based techniques. It will be able to classify individual feedback at a scale of 1-5 (where, 1-> Highly Negative, 5-> Highly Positive), and subsequently it will provide overall rating. In addition, the software will be able to yield ‘Aspect based Analysis’, i.e., it will not only provide the user ratings for different entities but also will analyze the ratings for different aspects/attributes associated to those entities. Here, an entity means a topic/product/service on which feedback is given. The software will be able to automatically extract entities and aspects from the provided feedback-data.  
 
 * As an end-product, we intent to make a web-based application. For visualization, it will use various graphical representations like- Pie chart, Doughnut chart, Line and Bar graphs, etc. The software is open for different types of input formats. The input can be provided directly from feedback forums or feedback management systems. Besides, the software will provide Web-embedded feedback-form API for real-time feedback analysis. A feedback manager would generate feedback-form web API links and manage them.The organization has to just put the API link on its website where the feedback form is needed, and all the relevant analysis will be shown on our software. Results can be analyzed for any specific time-period using the provided filtration options. In order to provide domain-independence to the software, the feedback manager can update the training dataset used in algorithms. Additionally, the software will be able to depict the recent trends in user feedback, like- on what topic people are giving more feedback.
@@ -47,3 +47,9 @@ __Dependencies / Show Stopper:__
 
 ## Architecture Diagram  
 <p align="center"><img src="https://github.com/kr-praveen/NM396_Alpha_Squad/blob/development1/readme_img/architecture%20diag.png" width="700" height="400"></p>
+
+## :clap: And it's done!
+Feel free to mail me for any doubts/query 
+:email: sih.team2020@gmail.com
+
+
