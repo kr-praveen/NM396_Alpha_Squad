@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>User Management </title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style type="text/css">
+		body {
+			color: #404E67;
+			background: #F5F7FA;
+			font-family: 'Open Sans', sans-serif;
+		}
+		.table-wrapper {
+			width: 100%;
+			margin: 30px auto;
+			background: #fff;
+			padding: 20px;	
+			box-shadow: 0 1px 1px rgba(0,0,0,.05);
+		}
+		.table-title {
+			padding-bottom: 10px;
+			margin: 0 0 10px;
+		}
+		.table-title h2 {
+			margin: 6px 0 0;
+			font-size: 22px;
+		}
+		.table-title .add-new {
+			float: right;
+			height: 30px;
+			font-weight: bold;
+			font-size: 12px;
+			text-shadow: none;
+			min-width: 100px;
+			border-radius: 50px;
+			line-height: 13px;
+		}
+		.table-title .add-new i {
+			margin-right: 4px;
+		}
+		table.table {
+			table-layout: fixed;
+		}
+		table.table tr th, table.table tr td {
+			border-color: #e9e9e9;
+		}
+		table.table th i {
+			font-size: 13px;
+			margin: 0 5px;
+			cursor: pointer;
+		}
+		table.table th:last-child {
+			width: 100px;
+		}
+		table.table td a {
+			cursor: pointer;
+			display: inline-block;
+			margin: 0 5px;
+			min-width: 24px;
+		}    
+		table.table td a.add {
+			color: #27C46B;
+		}
+		table.table td a.edit {
+			color: #FFC107;
+		}	
+		table.table td a.delete {
+			color: #E34724;
+		}
+		table.table td i {
+			font-size: 19px;
+		}
+		table.table td a.add i {
+			font-size: 24px;
+			margin-right: -1px;
+			position: relative;
+			top: 3px;
+		}    
+		table.table .form-control {
+			height: 32px;
+			line-height: 32px;
+			box-shadow: none;
+			border-radius: 2px;
+		}
+		table.table .form-control.error {
+			border-color: #f50000;
+		}
+		table.table td .add {
+			display: none;
+		}
+	</style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>User <b>Management</b></h2></div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+						
+                        <th>Department</th>
+						
+						<th>Email</th>
+						
+                        <th>Phone</th>
+					
+						<th> UserName</th>
+						
+						<th> Password</th>
+					
+                        <th>Actions</th>
+						
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    {% for val in user_data %}
+                    <form action="{{ url_for('user_management_action')}}" method="post">
+                        <tr>    
+                            <td> <input type="text" class="fields-input form-control" name="name" value="{{val['Name']}}" disabled> </td>
+                            <td> <input type="text" class="fields-input form-control" name="dept" value="{{val['Dept']}}" disabled> </td>
+    						<td> <input type="text" class="fields-input form-control" name="email" value="{{val['Email']}}" disabled> </td>
+                            <td> <input type="text" class="fields-input form-control" name="phone" value="{{val['Phone']}}" disabled> </td>
+    						<td> <input type="text" class="form-control" value="{{val['Uname']}}" disabled> </td>
+    						<td> <input type="text" class="fields-input form-control" name="pwd" value="{{val['Pwd']}}" disabled> </td>
+                            <td>
+                                <input type="text"  name="uname" value="{{val['Uname']}}" hidden>
+                                <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <button type="submit" name="submit" class="new-update" value="update" hidden><i class="material-icons"  >&#xE03B;</i></button>
+                                <button type="submit" name="submit" class="new-add" value="remove"><i class="material-icons">&#xE872;</i></button>
+                            </td>
+                        </tr>
+                    </form>
+                    {% endfor %}
+                    
+                    
+                    <!-- Form to add a new user -->
+                    <form action="{{ url_for('user_management_action')}}" method="post">
+                        <tr  id="add-new-user-form" hidden>
+        					<td><input type="text" class="form-control" name="name"  id ="uname" onkeypress="return Validate(event)"></td>
+            				<td><input type="text" class="form-control" name="dept" ></td>
+        					<td><input type="text" class="form-control" name="email" ></td>
+        					<td><input type="text" class="form-control " name="phone" id ="uphno" onkeypress="return numbersonly(event)" size="3" ></td>
+        					<td><input type="text" class="form-control " name="uname" id ="username"></td>
+        					<td><input type="text" class="form-control " name="pwd" id ="upwd" ></td>
+        					<td><button type="submit" name="submit" value="add"><i class="material-icons"  >&#xE03B;</i></button></td>
+    					</tr>
+					</form>
+                </tbody>
+            </table>
+            
+            <!-- Error Message Display -->
+            <p id="error-msg" style="color: red;"></p>
+        </div>
+    </div>   
+</body>
+	<script type="text/javascript">
+		// Validation for Numbers
+		function numbersonly(e){
+			document.getElementById("uphno").style.borderColor = "#00ff00";
+			var unicode=e.charCode? e.charCode : e.keyCode
+			if (unicode!=8){ //if the key isn't the backspace key (which we should allow)
+				if (unicode<48||unicode>57) //if not a number
+				{
+					document.getElementById("uphno").style.borderColor = "#ff0000";
+					document.getElementById("error-msg").innerHTML="Alphabets and Special Symbols are not allowed in Phone number!";
+					setTimeout(function(){
+						document.getElementById("error-msg").innerHTML = '';
+					}, 2500);
+					return false; //disable key press
+				}
+			}
+		}
+
+
+		// Validation Number with Pattern
+		function checkPhone() {
+			var phone = document.forms["myForm"]["phone"].value;
+			var phoneNum = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
+			if(phone.value.match(phoneNum)) {
+                return true;
+            }
+            else {
+                document.getElementByclass("add").className = document.getElementByclass("add").className + " error";
+                return false;
+            }
+        }
+
+		// Validation for Name
+		function Validate(e) {
+			document.getElementById("uname").style.borderColor = "#00ff00";
+			document.getElementById("error-msg").innerHTML="";
+			var keyCode = e.keyCode || e.which;
+			var lblError = document.getElementById("uname");
+			lblError.innerHTML = "";
+			<!-- //Regex for Valid Characters i.e. Alphabets. -->
+			var regex = /^[A-Za-z ]+$/;
+			<!-- //Validate TextBox value against the Regex. -->
+			var isValid = regex.test(String.fromCharCode(keyCode));
+			<!-- var isValid = regex.test(keyCode.value); -->
+			if (!isValid) {
+				lblError.innerHTML = "Only Alphabets allowed.";
+				document.getElementById("uname").style.borderColor = "#ff0000";
+				document.getElementById("error-msg").innerHTML="Numbers and Special Symbols are not allowed in Name!";
+				setTimeout(function(){
+					document.getElementById("error-msg").innerHTML = '';
+				}, 2500);
+			}
+			return isValid;
+		}
+		
+		$(document).ready(function(){
+			// Append table with add row form on add new button click
+			$(".add-new").click(function(){
+                $("#add-new-user-form").toggle();
+			});
+			
+	
+			// Edit row on edit button click
+			$(document).on("click", ".edit", function(){	
+			$(this).parents("tr").find(".fields-input").removeAttr("disabled");
+				$(this).parents("tr").find(".edit, .new-add, .new-update").toggle();
+				$(".add-new").attr("disabled", "disabled");
+			});
+	
+		});
+	</script>
+
+</html>                            
