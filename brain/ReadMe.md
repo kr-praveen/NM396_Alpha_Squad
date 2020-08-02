@@ -62,7 +62,7 @@ $ git clone https://github.com/kr-praveen/NM396_Alpha_Squad.git
 
 
 ## :hourglass: Project Demo
-:movie_camera: [YouTube Demo Link](https://www.youtube.com/watch?v=53ePTxXjwTg)
+:movie_camera: [Brain Introductory Vedio](https://www.youtube.com/watch?v=53ePTxXjwTg)
 
 ## :bulb: Basic User Functionalities  
 Mainly there are 4 functionalities:  
