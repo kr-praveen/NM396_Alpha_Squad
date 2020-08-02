@@ -7,10 +7,10 @@
  __Hardware Requirements__
 
 Following hardware requirements are needed for smooth deployment of the software –
-1. Hosted Server with the following configurations:
+1. __Hosted Server with the following configurations:__
   32 GB+ RAM, 1 TB+ HDD, 250 GB+ SSD, 16 GB+ Graphics Card.  
 
-2. Local System with the following configurations:
+2. __Local System with the following configurations:__
   8 GB+ RAM, 500 GB+ HDD, 4 GB+ Graphics Card, Network Interface Card.  
  
 3. Printer  
@@ -19,12 +19,12 @@ Following hardware requirements are needed for smooth deployment of the software
   
   Following software requirements are needed to set-up a favourable environment for the software –  
   
-1. Hosted Server should have the following software:  
+1. __Hosted Server should have the following software:__  
   Python 3.7 or above  
   MySQL 5.6 or above  
   Anaconda (Spyder)  
   
-2. Local System should have the following software:
+2. __Local System should have the following software:__
    Any Browser (Chrome, Firefox, Safari, Opera, IE, Microsoft Edge, etc.)
    MS-Excel or Google Docs
    Adobe PDF Viewer  
