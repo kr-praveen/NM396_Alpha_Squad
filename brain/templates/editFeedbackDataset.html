@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modify Feedback Dataset</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    #nav-feedback-datasets{
+        color: #ffffff;
+    }
+    .form-dashboard {
+    	border: 2px solid #0b618f;
+    	border-radius: 20px;
+    	margin-top: 30px;
+    	margin-bottom: 30px;
+    	padding-top: 20px;
+    	padding-bottom: 20px;
+    }
+
+    </style>
+</head>
+<body>
+    {% if session['u-type']=='super-admin' %}
+    {% include 'navbar_super_admin.html' %}
+    {% else %}
+    {% include 'navbar_main.html' %}
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="text-center form-dashboard">
+                <form action="{{ url_for('edit_fd_data_Confirm')}}" method="post"> 
+                	<div class="row">
+                		<div class="col-sm-12" style="color:#1a5487;font-size :2em;"><h2>Feedback DataSet: {{p.name}}</h2></div>
+                    </div>
+                	<br><br>
+	
+                	<div class="row">
+                		<input type="text"  name="storage-type" value="{{storage_type}}" hidden>
+                		<input type="text"  name="fd-id" value="{{p.fid}}" hidden>
+                		<input type="text"  name="fd-img" value="{{p.image}}" hidden>
+                		<input type="text"  name="fd-file" value="{{p.file}}" hidden>
+                		
+                		<div class="col-sm-4">
+                			<label>Feedback Data Name:</label>
+                		</div>
+                		<div class="col-sm-8">
+                			<input type="text" id="fd-name" name="fd-name" class="form-control mb-4" value = "{{p.name}}" disabled>
+                		</div>
+                	</div>
+                	<br>
+                	<div class="row">
+                		<div class="col-sm-4">
+                			<label>Description: </label>
+                		</div>
+                		<div class="col-sm-8">
+                			<input type="text" id="fd-desc" name="fd-desc" class="form-control mb-4" value = "{{p.desc}}" disabled>
+                		</div>
+                	</div>
+                	<br>	
+                	
+                    <div class="row">
+                		<div class="col-sm-4">
+                			<label>Training DataSet: </label>
+                		</div>
+                		<div class="col-sm-8">
+                			<select class="form-control" id="fd-td" name= "fd-td" style="height: 35px;"disabled>
+    				
+                				{% for val in  dict_training_data%}
+                    				{% if val['ID'] == td_id%}
+                        				<option class="form-control" value = {{val['ID']}} selected>{{val['Name']}}</option>
+                                    {% else %}
+                                        <option class="form-control" value = {{val['ID']}}>{{val['Name']}}</option>
+                                    {% endif %}
+                				{% endfor %}
+				
+                			</select>
+                		</div>
+                	</div>
+                	
+                	<br>
+            		<div class="row">
+                		<div class="col-sm-4">
+                			<label>Date:</label>
+                		</div>
+                		<div class="col-sm-8">
+                			<input type="text" id="fd-date" name="fd-date" class="form-control mb-4" value = "{{(p.date|string)}}" disabled>
+                		</div>
+                	</div>
+                	<br>
+
+    
+                    <div class="row" id="button-bars">
+                        <div class="col-sm-3"></div>
+                    	<div class="col-sm-6">
+                    		<button class="btn btn-info btn-block" type="submit" name="submit" value="remove">Remove</button>
+                    	</div>
+                    	<div class="col-sm-3"></div>
+                    </div>
+                    
+                    <div class="row" id="ok-button" hidden>
+                        <div class="col-sm-3"></div>
+                    	<div class="col-sm-6">
+                    		<button type="submit" class="btn btn-info btn-block" name="submit" value="update">OK</button>
+                    	</div>
+                    	<div class="col-sm-3"></div>
+                    </div>
+                </form>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-info btn-block" onclick="modifyTD()" id="modify-button">Modify</button>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% include 'footer_main.html' %}
+</body>
+
+<script>
+	function modifyTD(){
+		document.getElementById("fd-name").disabled = false;
+		document.getElementById("fd-desc").disabled = false;
+		document.getElementById("fd-td").disabled = false;
+		document.getElementById("button-bars").hidden = true;
+		document.getElementById("ok-button").hidden = false;
+		document.getElementById("modify-button").hidden = true;
+	}
+</script>
+</html>
