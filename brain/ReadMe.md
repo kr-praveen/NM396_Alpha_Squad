@@ -19,12 +19,12 @@ Following hardware requirements are needed for smooth deployment of the software
   
   Following software requirements are needed to set-up a favourable environment for the software –  
   
-1. __Hosted Server should have the following software:__  
+1. __Hosted Server should have the following software:__    
   Python 3.7 or above  
   MySQL 5.6 or above  
   Anaconda (Spyder)  
   
-2. __Local System should have the following software:__
+2. __Local System should have the following software:__  
    Any Browser (Chrome, Firefox, Safari, Opera, IE, Microsoft Edge, etc.)
    MS-Excel or Google Docs
    Adobe PDF Viewer  
