@@ -1,0 +1,4 @@
+
+Model-File 
+link : https://drive.google.com/file/d/17vraBGwXDIozy8FuY4MeKtdN3BHNLIlH/view?usp=sharing 
+location : ...\static\DBAlpha\TrainingDB\Models\
