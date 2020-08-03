@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta charset="utf-8">
+<style>
+.navigationcolor
+{
+background-color: #1a5487;
+}
+#nav-home, #nav-logout{
+color: rgba(255, 255, 255, 0.5);
+}
+</style>
+</head>
+
+<body>
+
+
+<!--- content Description -->
+
+<!-- nav Bar code -->
+
+<nav class="navbar navbar-expand-lg navigationcolor  navbar-dark  fixed-top ">
+  <a class="navbar-brand" href="{{url_for('userDashboardHome')}}" id="nav-home"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+ <div class="collapse navbar-collapse" id="navbarNav">
+     <ul class="navbar-nav">
+       <li class="nav-item">
+         <a class="nav-link" href="{{url_for('single_comment')}}" id="nav-single-comment"><i class="fa fa-comments-o" aria-hidden="true"></i> &nbsp;Single Comment</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="{{url_for('view_td')}}" id="nav-training-datasets"><i class="fa fa-newspaper-o" aria-hidden="true"></i> &nbsp;Training Datasets</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="{{url_for('view_fd')}}" id="nav-feedback-datasets"> <i class="fa fa-file" aria-hidden="true"></i>&nbsp; Feedback Datasets</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link " href="{{url_for('user_management')}}" target="_blank" id="nav-user-management"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp; User Management</a>
+       </li>
+     </ul>
+	<div class="navbar-collapse   ">
+     <ul class="navbar-nav ml-auto ">
+      <li class="nav-item active ">
+       <a class="nav-link " href="{{url_for('logout')}}" id="nav-logout"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp; Logout</a>
+	  </li>
+     </ul>
+	</div>
+ </div>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>Dataset Uploaded - Acknowledgement</title>
+</head>
+<body>
+    {% if session['u-type']=='super-admin' %}
+    {% include 'navbar_super_admin.html' %}
+    {% else %}
+    {% include 'navbar_main.html' %}
+    {% endif %}
+	<br><br>
+	<center>
+	<h4>Data Insertion Acknowledgement</h4>
+	<br>
+    <p id="confirm-status" style="font-size: 18px;"></p>
+	</center>
+	<br><br><br>
+    {% include 'footer_main.html' %}
+</body>
+
+<script>
+    var stat = {{status}};
+    if(stat==1){
+        document.getElementById("confirm-status").innerHTML = "Data Inserted Successfully!!";
+        document.getElementById("confirm-status").style.color = "#00ff00";
+    }
+    if(stat==0){
+        document.getElementById("confirm-status").innerHTML = "Couldn't Insert data!!";
+        document.getElementById("confirm-status").style.color = "#ff0000";
+    }
+</script>
+</html>

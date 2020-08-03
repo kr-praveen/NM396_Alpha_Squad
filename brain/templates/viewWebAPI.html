@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Web API</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        #nav-web-api{
+    		color: #ffffff;
+    	}
+    	
+        .form-dashboard {
+        	border: 2px solid #0b618f;
+        	border-radius: 20px;
+        	margin-top: 30px;
+        	margin-bottom: 30px;
+        	padding: 10px;
+        }
+    
+        .api-container {
+          position: relative;
+          width: 50%;	
+        }
+
+    </style>
+</head>
+<body>
+    {% if session['u-type']=='super-admin' %}
+    {% include 'navbar_super_admin.html' %}
+    {% else %}
+    {% include 'navbar_main.html' %}
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10 text-center form-dashboard p5">
+            <p class="h4 mb-4" style="color:#1a5487; font-size:2em;">Web API</p>
+            <div class="row">
+                <div class="api-container col-sm-4">
+					<center>
+					<button class="btn btn-primary btn-block" type="button" style="height: 190px; width: 190px; border-radius: 95px; font-size: 18px;" onclick = "getWebApi()">Get API Link</button><br>
+					</center>
+				</div>
+				<div class="api-container col-sm-4">
+    				<form action="{{ url_for('view_web_api_results')}}" method="post" target="_blank">
+    					<center>
+        					<button class="btn btn-primary btn-block" type="submit" style="height: 190px; width: 190px; border-radius: 95px; font-size: 18px;" name="submit" value="modify">Analysis Results</button><br>
+    					</center>
+    				</form>
+				</div>
+				<div class="api-container col-sm-4">
+    				<center>
+        				<a href="{{url_for('download_web_api_dataset')}}" style="text-decoration: none;" target="_blank" download>	
+        					<button class="btn btn-primary btn-block" type="button" style="height: 190px; width: 190px; border-radius: 95px; font-size: 18px;">Get Web API Dataset</button><br>
+            			</a>
+    				</center>
+				</div>
+            </div>
+            <br>
+			<div id="web-api-link" hidden>
+				<p style= "color: #1a5487;"><b>Copy the below given API Embedding code and put it on your website.</b></p>
+				<div class="row">
+					<div class="col-sm-10">
+						<input type="text" style="width: 100%; font-size: 14px; padding: 5px;" value="<iframe src= 'https://api-form.s3.amazonaws.com/index.html' height='550px' width='100%' style='border: none;'></iframe>" id="myInput">
+					</div>
+					<div class="col-sm-2">
+						<button onclick="copyText()" class="btn btn-info btn-block" style="font-size: 14px;">Copy</button>
+					</div>
+				</div>
+			</div>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+</body>
+<script>
+function getWebApi(){
+	if (document.getElementById('web-api-link').hidden == true)
+	document.getElementById('web-api-link').hidden = false;
+	else
+	document.getElementById('web-api-link').hidden = true;
+}
+function copyText() {
+  var copyText = document.getElementById("myInput");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Copied the API Link: " + copyText.value);
+}
+</script>
+
+</html>
+{% include 'footer_main.html' %}

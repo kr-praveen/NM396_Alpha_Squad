@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sentiment Analysis</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+</head>
+
+<body>
+    <div id="content" class="container-fluid">
+        <center>
+            <h3 class="heading"><b>Sentiment Analysis From Feedback</b></h3>
+        </center>
+        <br>
+        <center>
+            <form action="{{ url_for('predict')}}" method="post" class="text_input">
+                <div class="row">
+                    <div class="col-sm-2" id="fd_back" for="feedback"><b>Feedback</b></div>
+                    <div class="col-sm-8">
+                        <input type="text" name="feedback" class="fd_text" 
+                        id="feedback_text" placeholder="Your Feedback Text Here...." required="required">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-success btn-block btn-large" >Predict</button>
+                    </div>
+                </div>
+            </form>
+        </center>
+        <br>
+        <br>
+    </div>
+    <div class="wrapper">
+        <canvas id="myChart" width="800" height="600"></canvas>
+    </div>
+    <br>
+    <h4 id="result"> Rating of the sentiment in the scale of [1,5]: <b>{{ predicted_result }}</b> </h4>
+    <script>
+        var result = {{predicted_result}};
+         var pos_percentage = ((result-1)*25).toFixed(2);
+         var chart_data = [pos_percentage, 100-pos_percentage];
+         
+        var ctx = document.getElementById("myChart");
+        var myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: { 
+                labels:[
+                    'Positive',
+                    'Negative'
+                ], 
+                datasets: [ { 
+                    data: chart_data,
+                    backgroundColor: ["#00ff00", "#ff0000"],
+                    fill: false
+                }]
+            }
+        });
+    </script>
+</body>
+</html>

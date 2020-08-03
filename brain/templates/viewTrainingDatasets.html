@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Training Datasets</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        #nav-training-datasets{
+            color: #ffffff;
+        }
+        .form-dashboard {
+        	border: 2px solid #0b618f;
+        	border-radius: 20px;
+        	margin-top: 30px;
+        	margin-bottom: 30px;
+        	padding-top: 20px;
+        	padding-bottom: 20px;
+        }
+    
+        .api-container {
+          position: relative;
+          width: 50%;	
+        }
+        .api-inside-img {
+          opacity: 1;
+          display: block;
+          width: auto;
+          height: 100px;
+          border-radius: 10px;
+          transition: .5s ease;
+          backface-visibility: hidden;
+        }
+        .api-image {
+          opacity: 1;
+          display: block;
+          width: auto;
+          padding: 5px;
+          transition: .5s ease;
+          backface-visibility: hidden;
+          border: 2px solid #0b618f;
+          border-radius: 5px;
+        }
+    
+        .api-middle {
+          transition: .5s ease;
+          opacity: 0;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+          text-align: center;
+        }
+    
+        .api-container:hover .api-image {
+          opacity: 0.2;
+        }
+    
+        .api-container:hover .api-middle {
+          opacity: 1;
+        }
+        .api-btn: hover{
+        
+        }
+
+    </style>
+</head>
+<body>
+    {% if session['u-type']=='super-admin' %}
+    {% include 'navbar_super_admin.html' %}
+    {% else %}
+    {% include 'navbar_main.html' %}
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 text-center form-dashboard p5">
+            <p class="h4 mb-4" style="color:#1a5487; font-size:2em;"> Training Datasets</p>
+            <div class="row">
+                {% for val in td_names %}
+                    <div class="api-container col-sm-4">
+                        <div class="api-image">
+                            <img src="{{url_for('static', filename ='DBAlpha/TrainingDB/Images/'+val['Image_URL'])}}" alt="Avatar" class="api-inside-img" style="width:100%" id={{val["ID"]}}>
+                            <br>
+                            <p>{{val["Name"]}}</p>
+                        </div>
+                        <div class="api-middle">
+                            <form action="{{ url_for('edit_td_data')}}" method="post" target="_blank">
+                                <input type="text" name="td-id" value="{{val['ID']}}" hidden>
+                                <button class="btn btn-primary btn-sm api-btn" type="submit">More Info....</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% if loop.index is divisibleby 3 %}
+                        </div>
+                        <br>
+                        <div class="row">
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <br><br><br>
+            <a href="{{ url_for('add_td')}}" class="btn btn-info">Upload New Training Data</a>
+        </div>
+    </div>
+</body>
+</html>
+{% include 'footer_main.html' %}

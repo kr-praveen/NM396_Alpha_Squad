@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+    <title>Training the model..</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+<center>
+    <h2>We are training the model over new dataset.</h2>
+    <br>
+    <h4>This may take few minutes. Please wait!!..........</h4>
+    <h5 style="color: red">Please do not press refresh or back buttons!</h5>
+    <h5 style="color: #444444">We'll redirect you to new page when task is complete</h5>
+    <br>
+    <p id="status"></p>
+</center>
+</body>
+
+<script>
+    $(document).ready(function(){
+        var tdfile = {{json_td_file_name | tojson | safe}};
+        $.ajax({
+        	url: "{{url_for('generate_pkl')}}",
+    		data: tdfile,
+    		type: 'POST',
+    		success: function(response){
+            	$('#status').html("Model Generated Successfully!...<br>Redirecting to new page.......");
+            	$('#status').css("color", "green");
+    			window.location.href = "{{url_for('view_td')}}";
+    		},
+        	error: function(error){
+    			console.log(error);
+    		}
+    	});
+    });
+
+</script>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Alpha Squad</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <style>
+  body {
+    font: 400 15px Lato, sans-serif;
+    line-height: 1.8;
+    color: #818181;
+  }
+  
+  
+  
+  	.modal-login {		
+		color: #636363;
+		width: 350px;
+	}
+	.modal-login .modal-content {
+		padding: 20px;
+		border-radius: 5px;
+		border: none;
+	}
+	.modal-login .modal-header {
+		border-bottom: none;   
+        position: relative;
+        justify-content: center;
+	}
+	.modal-login h4 {
+		text-align: center;
+		font-size: 26px;
+		margin: 30px 0 -15px;
+	}
+	.modal-login .form-control:focus {
+		border-color: #70c5c0;
+	}
+	.modal-login .form-control, .modal-login .btn {
+		min-height: 40px;
+		border-radius: 3px; 
+	}
+	.modal-login .close {
+        position: absolute;
+		top: -5px;
+		right: -5px;
+	}	
+	.modal-login .modal-footer {
+		background: #ecf0f1;
+		border-color: #dee4e7;
+		text-align: center;
+        justify-content: center;
+		margin: 0 -20px -20px;
+		border-radius: 5px;
+		font-size: 13px;
+	}
+	.modal-login .modal-footer a {
+		color: #999;
+	}		
+	.modal-login .avatar {
+		position: absolute;
+		margin: 25px auto 10px auto;
+		left: 0;
+		right: 0;
+		top: -70px;
+		width: 95px;
+		height: 95px;
+		border-radius: 50%;
+		z-index: 9;
+		background: #60c7c1;
+		padding: 15px;
+		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+	}
+	.modal-login .avatar img {
+		width: 100%;
+	}
+	.modal-login.modal-dialog {
+		margin-top: 80px;
+	}
+    .modal-login .btn {
+        color: #fff;
+        border-radius: 4px;
+		background: #1a5487;
+		text-decoration: none;
+		transition: all 0.4s;
+        line-height: normal;
+        border: none;
+    }
+	.modal-login .btn:hover, .modal-login .btn:focus {
+		background: #1a5487;
+		outline: none;
+	}
+	.trigger-btn {
+		display: inline-block;
+	}
+  
+  
+  
+  
+  h2 {
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #303030;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+  h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    color: #303030;
+    font-weight: 400;
+    margin-bottom: 30px;
+  }  
+  .jumbotron {
+    background-color: #1a5487;
+    color: #fff;
+    padding: 100px 25px;
+    font-family: Montserrat, sans-serif;
+  }
+  .container-fluid {
+    padding: 60px 50px;
+  }
+  .bg-grey {
+    background-color: #f6f6f6;
+  }
+  .logo-small {
+    color: #1a5487;
+    font-size: 50px;
+  }
+  .logo {
+    color: #1a5487;
+    font-size: 200px;
+  }
+  .thumbnail {
+    padding: 0 0 15px 0;
+    border: none;
+    border-radius: 0;
+  }
+  .thumbnail img {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+  }
+  .carousel-control.right, .carousel-control.left {
+    background-image: none;
+    color: #1a5487;
+  }
+  .carousel-indicators li {
+    border-color: #1a5487;
+  }
+  .carousel-indicators li.active {
+    background-color: #1a5487;
+  }
+  .item h4 {
+    font-size: 19px;
+    line-height: 1.375em;
+    font-weight: 400;
+    font-style: italic;
+    margin: 70px 0;
+  }
+  .item span {
+    font-style: normal;
+  }
+  .panel {
+    border: 1px solid #1a5487; 
+    border-radius:0 !important;
+    transition: box-shadow 0.5s;
+  }
+  .panel:hover {
+    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+  }
+  .panel-footer .btn:hover {
+    border: 1px solid #1a5487;
+    background-color: #fff !important;
+    color: #1a5487;
+  }
+  .panel-heading {
+    color: #fff !important;
+    background-color: #1a5487 !important;
+    padding: 25px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .panel-footer {
+    background-color: white !important;
+  }
+  .panel-footer h3 {
+    font-size: 32px;
+  }
+  .panel-footer h4 {
+    color: #aaa;
+    font-size: 14px;
+  }
+  .panel-footer .btn {
+    margin: 15px 0;
+    background-color: #1a5487;
+    color: #fff;
+  }
+  .navbar {
+    margin-bottom: 0;
+    background-color: #1a5487;
+    z-index: 9999;
+    border: 0;
+    font-size: 12px !important;
+    line-height: 1.42857143 !important;
+    letter-spacing: 4px;
+    border-radius: 0;
+    font-family: Montserrat, sans-serif;
+  }
+  .navbar li a, .navbar .navbar-brand {
+    color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #1a5487 !important;
+    background-color: #fff !important;
+  }
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #fff !important;
+  }
+  footer .glyphicon {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #1a5487;
+  }
+  .slideanim {visibility:hidden;}
+  .slide {
+    animation-name: slide;
+    -webkit-animation-name: slide;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    visibility: visible;
+  }
+  @keyframes slide {
+    0% {
+      opacity: 0;
+      transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+  @-webkit-keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .col-sm-4 {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .btn-lg {
+      width: 100%;
+      margin-bottom: 35px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .logo {
+      font-size: 150px;
+    }
+  }
+  </style>
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#myPage">ALPHA SQUAD</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#services">SERVICES</a></li>
+        <li><a href="#pricing">PRICING</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+        <li><a href="{{url_for('single_comment')}}" target="_blank">SENTENCE BASED ANALYSIS</a></li>
+		<li><a class="nav-link trigger-btn" href="#myModal" style="color:white" data-toggle="modal">LOGIN</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron text-center">
+  <img src="{{url_for('static', filename='Images/logo.png')}}" alt="logo" height="200" width="200" style="float: left;">
+  <h1>Alpha Squad</h1>
+  <h2 style="color: white;">Intuition to Innovation</h2>
+  <p>We specialize in analysing feedback chunks.</p> 
+</div>
+
+
+
+<!-- Login Popup Blocks Begins -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="avatar">
+					<span class="glyphicon glyphicon-user" style="font-size: 63px; color: #efefef;"></span>	
+				</div>				
+				<h4 class="modal-title">User Login</h4>	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form action="{{url_for('login_confirm')}}" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control" name="u_name" placeholder="Username" required>		
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" id="pwd" name="u_pwd"  placeholder="Password" required>	
+					</div>        
+					 
+					<div class="form-group">
+    					<div class="g-recaptcha" data-sitekey="{{ sitekey }}"></div> <br/>
+						<button type="submit" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
+					</div>
+				</form>
+			</div>
+			<div  class="modal-footer">
+			
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<!-- Container (About Section) -->
+<div id="about" class="container-fluid">
+  <div class="row">
+    <div class="col-sm-8">
+      <h2>About Alpha Squad</h2><br>
+      <h4 style="text-align: justify;">Established in July 2019, Alpha Squad is a team of developers dedicated to provide quality software solutions in the domain of Machine Learning, Deep Learning, Artificial Intelligence and Natural Language Processing.</h4><br>
+      <p style="text-align: justify;">We have a team of 6 members highly skilled in various cross-domain trending computer technologies. The passion, zeal and enthusiam of the members of the team makes us enable to provide wonderful solutions in technology. We expertize in realising real-life needs and giving the solutions accordingly. In addition, we are available for 24x7 support. The contact info is given below.</p>
+	  <br><a href="#contact"><button class="btn btn-default btn-lg">Get in Touch</button></a>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-info-sign logo" style="float: right;"></span>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-grey">
+  <div class="row">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-flag logo slideanim"></span>
+    </div>
+    <div class="col-sm-8">
+      <h2>Our Values</h2><br>
+      <h4><strong>MISSION:</strong> We believe in "Good, better, best. Never let it rest, till your good is better and your better is best". We are dedicated to make thw technological world better and more better.</h4><br>
+      <p><strong>ETHICS:</strong> Team work, hard work, passion and dedication are keys to do something outstanding in life. We believe in the team work. We believe in "Alone we can do so little, together we can do so much". Passion and dedication proves the work to be more fledged and wonderful.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Container (Services Section) -->
+<div id="services" class="container-fluid text-center">
+  <h2>SERVICES</h2>
+  <h4>What we offer</h4>
+  <br>
+  <div class="row slideanim">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-list-alt logo-small"></span>
+      <h4>Sentence Based Analysis</h4>
+      <p>We provide the facility to analysis sentiment of one feedback string in detail. Provide your feedback and check the sentiment associated with the feedback on the go.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-folder-open logo-small"></span>
+      <h4>Feedback Data Analysis</h4>
+      <p>We provide services to analyse your feedback files stored on your local storage, system or cloud. The all dimension analysis, including 'Aspect Based Analysis', of your document is provided over the training dataset of your selected choice. This makes the service domain-independent.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-cloud logo-small"></span>
+      <h4>Cloud Storage</h4>
+      <p>Our cloud plug-ins enable you to store all your feedback data on cloud. In addition, you can provide a URL for files stored at your cloud server, and we will analyse it on real-time.</p>
+    </div>
+  </div>
+  <br><br>
+  <div class="row slideanim">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-globe logo-small"></span>
+      <h4>Web API</h4>
+      <p>We provide facility to generate web API embedded feedback form link. You would have to embed it in your website, and we'll provide you real-time analysis over the feedbacks given through API Link.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-blackboard logo-small"></span>
+      <h4 style="color:#303030;">Suggestions for Improvement</h4>
+      <p>We enable you to get some of the valuable user feedbacks over defects of the services or products, in which they provide their opinions for improvements. These opinions or suggestions may help a lot in making business decision and analysing user needs.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-object-align-bottom logo-small"></span>
+      <h4>Proficient Result Page</h4>
+      <p>We facilitate the clients with attractive result pages. The result pages have robust projection along with various filtration options. We also provide suggestions for improvements. Clients can download reports of analysis in various formats as per requirement.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Container (Pricing Section) -->
+<div id="pricing" class="container-fluid">
+  <div class="text-center">
+    <h2>Pricing</h2>
+    <h4>There are two plans available</h4>
+  </div>
+  <div class="row slideanim">
+	<div class="col-sm-2 col-xs-1"></div>
+    <div class="col-sm-4 col-xs-12">
+      <div class="panel panel-default text-center">
+        <div class="panel-heading">
+          <h1>Free (Basic)</h1>
+        </div>
+        <div class="panel-body">
+          <p><strong>Freely Available</strong></p>
+          <p><strong>Sentence Based Analysis</strong></p>
+          <p><strong>24x7 Support</strong></p>
+          <p><strong>Lifetime Access</strong></p>
+        </div>
+        <div class="panel-footer">
+          <h3>FREE</h3>
+        </div>
+      </div>      
+    </div>     
+    <div class="col-sm-4 col-xs-12">
+      <div class="panel panel-default text-center">
+        <div class="panel-heading">
+          <h1>Paid (Advanced)</h1>
+        </div>
+        <div class="panel-body">
+          <p><strong>Customized Software per client</strong></p>
+          <p><strong>Login Facilities</strong></p>
+          <p><strong>Sentence Based Analysis</strong></p>
+          <p><strong>Feedback Data Analysis</strong></p>
+          <p><strong>Cloud Services Plug-ins</strong></p>
+          <p><strong>Web API</strong></p>
+          <p><strong>24x7 Support</strong></p>
+          <p><strong>Endless</strong></p>
+        </div>
+        <div class="panel-footer">
+          <h3>INR 1000</h3>
+          <h4>per year</h4>
+          <a href="#contact"><button class="btn btn-lg">Contact to get Login Credentials</button></a>
+        </div>
+      </div>      
+    </div>     
+	<div class="col-sm-2 col-xs-1"></div>
+  </div>
+</div>
+
+<!-- Container (Contact Section) -->
+<div id="contact" class="container-fluid bg-grey">
+  <h2 class="text-center">CONTACT</h2>
+  <div class="row">
+    <div class="col-sm-5">
+      <p>Contact us for any support.</p>
+      <p><span class="glyphicon glyphicon-map-marker"></span> Bhopal, Madhya Pradesh, India</p>
+      <p><span class="glyphicon glyphicon-phone"></span> +91 93405 90344</p>
+      <p><span class="glyphicon glyphicon-envelope"></span> sih.team2020@gmail.com</p>
+    </div>
+    <form class="col-sm-7 slideanim" action="{{ url_for('submitContactFormHomepage')}}" method="post">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+        </div>
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <button class="btn btn-default pull-right" type="submit">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="container-fluid text-center" style="background-color: #1a5487;">
+  <div class="row">
+	<img src="{{url_for('static', filename='Images/banner.png')}}" alt="Alpha Squad Banner" style="width: 100%; height: auto; border-radius: 20px; background-color: #000000;">
+	<br><br>
+	<a href="#myPage" title="To Top">
+      <span class="glyphicon glyphicon-chevron-up" style="color: white"></span>
+    </a>
+	<br>
+    <p style="color: white">&copy; Alpha Squad - 2020</p>
+  </div>
+</footer>
+
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+  
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+</script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+    <title>Dashboard</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Merienda+One&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Aclonica&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+	<style>
+    #nav-home{
+        color: #ffffff !important;
+    }
+	.welcome-msg{
+		background-color: #1b5487;
+		color: #ffffff;
+		padding: 10px;
+		text-align: center;
+	}
+	.field-label{
+		float: right;
+		font-family: 'Merienda One', cursive;
+		font-size: 22px;
+	}
+	.field-details{
+		float: left;
+		font-family: 'Aclonica', sans-serif;
+		color: #727272;
+		font-size: 22px;
+	}
+	.container-dashboard{
+		margin: 5% 10% 5% 10%;
+		padding-bottom: 10px;
+		border: 1px solid #1b5487;
+	}
+	.about-lines{
+    	font-family: 'Ubuntu', sans-serif;
+    	padding-top: 10px;
+    	padding-bottom: 10px;
+    	padding-left: 20px;
+    	padding-bottom: 20px;
+    	color: #7b7b7b;
+    	font-size: 18px;
+    	text-align: center;
+	}
+    </style>
+</head>
+<body>
+    {% if session['u-type']=='super-admin' %}
+    {% include 'navbar_super_admin.html' %}
+        <div class="container-dashboard">
+            <h3 class = "welcome-msg">Welcome ALPHA SQUAD</h3>
+            <p class="about-lines">We are dedicated to provide you quality service.</p>
+            <p class="about-lines">For any type of support anytime, drop us a mail at <b><i>alphasquad.correspondence@gmail.com</i></b>.</p>
+        </div>
+    {% else %}
+    {% include 'navbar_main.html' %}
+    
+    	<div class="container-dashboard">
+    		<h3 class = "welcome-msg">Welcome {{session['u-name']}}</h3>
+    		<p style="text-align: center; font-size: 18px;">Your details go here..</p>
+    		<div class="row r">
+    			<div class="col-sm-6 col-md-6">
+    				<p class= "field-label"> User Name: </p>
+    			</div>
+    			<div class="col-sm-6 col-md-6">
+    				<p class="field-details"> {{session['username']}} </p>
+    			</div>
+    		</div>
+    		<div class="row r">
+    			<div class="col-sm-6 col-md-6">
+    				<p class= "field-label"> Department: </p>
+    			</div>
+    			<div class="col-sm-6 col-md-6">
+    				<p class="field-details"> {{session['u-dept']}} </p>
+    			</div>
+    		</div>
+    		<div class="row r">
+    			<div class="col-sm-6 col-md-6">
+    				<p class= "field-label"> Email Id: </p>
+    			</div>
+    			<div class="col-sm-6 col-md-6">
+    				<p class="field-details"> {{session['u-email']}} </p>
+    			</div>
+    		</div>
+    		<div class="row r">
+    			<div class="col-sm-6 col-md-6">
+    				<p class= "field-label"> Contact No: </p>
+    			</div>
+    			<div class="col-sm-6 col-md-6">
+    				<p class="field-details"> {{session['u-phone']}} </p>
+    			</div>
+    		</div>
+    	</div>
+    	<center><b><i><p style="color: #8b8b8b;">In case, if you want to update your details or forgot your password, please contact Admin Section of your enterprise.</p></i></b></center>
+    	<br><br>
+    
+    {% endif %}
+
+{% include 'footer_main.html' %}
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modify Training Dataset</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    #nav-training-datasets{
+        color: #ffffff;
+    }
+    .form-dashboard {
+    	border: 2px solid #0b618f;
+    	border-radius: 20px;
+    	margin-top: 30px;
+    	margin-bottom: 30px;
+    	padding-top: 20px;
+    	padding-bottom: 20px;
+    }
+
+    </style>
+</head>
+<body  onload = "checkDefault()">
+    {% if session['u-type']=='super-admin' %}
+    {% include 'navbar_super_admin.html' %}
+    {% else %}
+    {% include 'navbar_main.html' %}
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="text-center form-dashboard">
+                <form action="{{ url_for('edit_td_data_Confirm')}}" method="post"> 
+                	<div class="row">
+                		<div class="col-sm-12" style="color:#1a5487;font-size :2em;"><h2>View Training DataSet </h2></div>
+                    </div>
+                	<br><br>
+	
+                	<div class="row">
+                		<input type="text"  name="td-id"  id = "td_id" value="{{p.id}} " hidden>
+                		<input type="text"  name="td-img" value="{{p.image}} " hidden>
+                		<input type="text"  name="td-file" value="{{p.file}} " hidden>
+                		<input type="text"  name="td-model" value="{{p.model}} " hidden>
+                		<div class="col-sm-4">
+                			<label>Training Data Name:</label>
+                		</div>
+                		<div class="col-sm-8">
+                			<input type="text" id="td-name" name="td-name" class="form-control mb-4" value = "{{p.name}}" disabled>
+                		</div>
+                	</div>
+                	<br>
+                	<div class="row">
+                		<div class="col-sm-4">
+                			<label>Training Data Desc :</label>
+                		</div>
+                		<div class="col-sm-8">
+                			<input type="text" id="td-desc" name="td-desc" class="form-control mb-4" value = "{{p.desc}}" disabled>
+                		</div>
+                	</div>
+                	<br>
+            		<div class="row">
+                		<div class="col-sm-4">
+                			<label>Date:</label>
+                		</div>
+                		<div class="col-sm-8">
+                			<input type="text" id="td-date" name="td-date" class="form-control mb-4" value = "{{(p.date|string)}}" disabled>
+                		</div>
+                	</div>
+                	<br>
+            		<div class="row">
+                		<div class="col-sm-4">
+                			<label>Accuracy:</label>
+                		</div>
+                		<div class="col-sm-8">
+                			<input type="text" id="td-acc" name="td-acc" class="form-control mb-4" value = "{{p.accuracy}}%" disabled>
+                		</div>
+                	</div>
+                	<br>
+    
+                    <div class="row" id="button-bars">
+                        <div class="col-sm-3"></div>
+                    	<div class="col-sm-6">
+                    		<button class="btn btn-info btn-block" type="submit" id="rmvbtn" name="submit" value="remove">Remove</button>
+                    	</div>
+                    	<div class="col-sm-3"></div>
+                    </div>
+                    <div id="ok-button" hidden>
+                    	<button type="submit" class="btn btn-info " name="submit" value="update">OK</button>
+                    </div>
+                </form>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-info btn-block" onclick="modifyTD()" id="modify-button">Modify</button>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% include 'footer_main.html' %}
+</body>
+
+<script>
+
+	function modifyTD(){
+		document.getElementById("td-name").disabled = false;
+		document.getElementById("td-desc").disabled = false;
+		document.getElementById("button-bars").hidden = true;
+		document.getElementById("ok-button").hidden = false;
+		document.getElementById("modify-button").hidden = true;
+	}
+	function modifyDetails(){
+	
+		document.getElementById("td-name").disabled = true;
+		document.getElementById("td-desc").disabled = true;
+		document.getElementById("button-bars").hidden = false;
+		document.getElementById("ok-button").hidden = true;
+	
+	}
+	
+	
+	function checkDefault()
+	{
+	//alert("INSIDE FXN");
+	if(document.getElementById("td_id").value == 42 )
+	{
+	//alert("INSIDE IF PART");
+	document.getElementById("rmvbtn").disabled = true; 
+	}
+	}
+</script>
+</html>

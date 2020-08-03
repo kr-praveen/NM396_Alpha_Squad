@@ -1,0 +1,81 @@
+#content {
+    padding: 5px;
+}
+	
+.text_input {
+    height: 65px;
+    width: 58%;
+    padding: 12px;
+    border-radius: 10px;
+    background-color: #f0f7f7;
+}
+
+.heading {
+    margin: 20px;
+    color: #728282;
+    font-family: verdana;
+    font-size: 32px;
+}
+
+#fd_back, fd-file {
+    color: #444;
+    font-family: verdana;
+    font-size: 20px;
+    color: #909999;
+}
+
+.fd_text {
+    padding: 2px;
+	margin-left:5px; 
+    height: 40px;
+    width: 100%;
+    border-radius: 6px;
+    background-color: white;
+}
+
+.btn {
+    background-color: #14adb5;
+    color: white;
+	
+}
+
+.wrapper {
+    max-width: 450px; 
+    margin: auto;
+}
+
+#result {
+    color: #7b7b7b; 
+    font-family: arial; 
+    text-align: center;
+}
+.feed_bk{
+	font-size: 18px;
+}
+
+@media screen and (max-width: 700px) {
+.feed_bk{
+	font-size: 16px;
+}
+}
+
+@media screen and (max-width: 575px) {
+.text_input {
+    width: 90%;
+	height:150px;
+	border-radius: 10px;
+}
+.heading{
+	font-size:24px;
+}
+.fd_text{
+    margin:5px;
+	width:60%;
+}
+.feed_bk, feed_fl{
+	font-size: 16px;
+}
+.file_input{
+	margin-top:5px;
+}
+}

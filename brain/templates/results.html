@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Result</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://www.google.com/jsapi'></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="date_time.js"></script>
+
+
+
+
+    							<!--    JAVASCRIPT CODE  -->
+
+
+
+	<script type="text/javascript">
+		var overall_rating = {{overall_rate}};
+		var overall_sentiment = overall_rating.toFixed(2);
+		
+
+/////////////////////-------------TO CALL THE BASIC FUNCTION TO DRAW CHARTS--------------///////////////////////////////
+
+
+		function initial() 
+		{
+
+			span = document.getElementById("overall_sentiment");
+			txt = document.createTextNode(overall_sentiment);
+			span.appendChild(txt);
+			addDataInCombo1();
+			addDataInCombo2();
+			addDataInCombo3();
+			SuggestionBox();
+		}
+
+
+
+////////////////////////////////////////---------JSON OBJECT(s) STARTS-----------////////////////////////////////////////
+		
+
+
+//FOR ENTITY AND ASPECT BASED ANALYSIS//
+
+var data_original = {{aspect_json | tojson | safe}}["data"];
+
+
+
+//DATA (YEAR-WISE SENTIMENT OF EACH ENTITY)//
+
+var data_progress_timeline = {{progress_json | tojson | safe}}["data"];
+
+
+
+
+//FOR SUGGESTION MINING
+
+var SUGGESTION_DATA = {{suggestions_json | tojson | safe}};
+
+
+
+////////////////////////////////////////---------JSON OBJECT(s)   ENDS -----------////////////////////////////////////////
+
+
+
+
+
+
+/////////////////----------------------FUNCTION TO ADD DATA IN COMBO-BOXES(STARTS)------------------//////////////////////////////////
+
+
+
+
+//FOR ASPECT-WISE RATING GARPH//
+
+function addDataInCombo1() 
+{
+
+	var combo = document.getElementById("entities");
+	
+	for (var i = 0; i < data_original.length; i++)
+	{
+		var option = document.createElement("option");  
+		option.text = (data_original[i]['entity']);
+		option.value = (data_original[i]['entity']);
+		try 
+		{
+        combo.add(option, null); //Standard 
+    
+		}
+		catch(error) 
+		{
+			combo.add(option); // IE only
+		
+		}
+
+	}
+
+
+	aspects_Based();
+
+}
+
+
+//FOR YEAR-WISE ANALYSIS FOR ENTITIES//
+
+function addDataInCombo2() 
+{
+
+	var combo = document.getElementById("entities1");
+	
+	for (var i = 0; i < data_progress_timeline.length; i++)
+	{
+		var option = document.createElement("option");  
+		option.text = (data_progress_timeline[i]['entity']);
+		option.value = (data_progress_timeline[i]['entity']);
+		try 
+		{
+        combo.add(option, null); //Standard 
+    
+		}
+		catch(error) 
+		{
+			combo.add(option); // IE only
+		
+		}
+
+	}
+
+
+	LineChart();
+
+}
+
+
+
+
+//FOR SUGGESTION-MINING//
+
+
+function addDataInCombo3()
+{
+		var combo = document.getElementById("entities2");
+	
+
+	for (var i in SUGGESTION_DATA)
+	{
+		
+ 		var option = document.createElement("option");  
+		option.text = (i);
+		option.value = (i);
+		try 
+		{
+        combo.add(option, null); //Standard 
+    
+		}
+		catch(error) 
+		{
+			combo.add(option); // IE only
+		
+		}
+
+	}
+
+}
+
+
+
+
+
+/////////////////----------------------FUNCTION TO ADD DATA IN COMBO-BOXES  (ENDS)------------------//////////////////////////////////
+
+
+
+
+
+
+
+////////////////////////---------------------DARWING CHARTS (STARTS) -----------------------//////////////////////////////
+
+
+
+//for dounoght chart  (STARTS)//
+
+
+google.charts.load("current", {packages:["corechart"]});
+google.charts.setOnLoadCallback(drawPieChart);
+function drawPieChart() {
+	var p = (overall_sentiment-1)*25;
+	var data = google.visualization.arrayToDataTable([
+		['Sentiment', 'Percentage'],
+		['Positive Sentiments %', p],
+		['Negative Sentiments %',100-p  ]
+		]);
+
+	var options = {
+		backgroundColor: "#ffffff",
+		fontSize: 15,
+		pieHole: 0.2,
+		slices :{
+			0: { color: '#00ff00' },
+			1: { color: '#ff0000' }
+		},
+		legend:{ position : 'bottom'}
+
+	};
+
+	var chart = new google.visualization.PieChart(document.getElementById('Chart_overall'));
+	chart.draw(data, options);
+}
+
+
+//for dounoght chart  (ENDS)//
+
+
+
+
+
+
+
+
+//FOR ENTITY WISE GRAPH'S DASHBOARD //
+
+
+google.charts.load('current', {'packages':['corechart', 'controls']});
+google.charts.setOnLoadCallback(drawEntityGraph);
+
+function drawEntityGraph() 
+{
+
+	var dashboard = new google.visualization.Dashboard
+	(
+		document.getElementById('entity_div'));
+
+
+	programmaticSlider = new google.visualization.ControlWrapper
+	({
+		'controlType': 'NumberRangeFilter',
+		'containerId': 'entity_filter',
+		'options': {
+			'filterColumnLabel': 'Overall Rating',
+			'ui': {'labelStacking': 'Horizontal'},
+			'width': 60,
+			'height': 30,
+		
+		}
+	});
+
+
+	var data_for_entity=[];
+	var header = ['Name', 'Overall Rating',{role : "style"}, 'Aspect Average Rating',{role : "style"}];
+	data_for_entity.push(header);
+	for (var i = 0; i < data_original.length; i++) 
+	{
+		var temp = [];
+		temp.push(data_original[i]['entity'], parseFloat(data_original[i]['overall']),"#4287f5", parseFloat(data_original[i]['aspect_avg']),'#e69257');
+		data_for_entity.push(temp);
+	}
+
+
+	var data = google.visualization.arrayToDataTable(data_for_entity);
+
+
+	var programmaticChart  = new google.visualization.ChartWrapper({
+		'chartType': 'ColumnChart',
+		'containerId': 'entity_chart',
+		'options': {
+			'width': '100%',		
+			'vAxis': {title: "Values"},
+			'hAxis': {title: "Entity"},
+			'legend': 'right',
+			'backgroundColor': "#ffffff",
+			'colors': ['#4287f5', '#e69257'],
+			'legend':{ 'position' : 'top'}
+		}
+
+	});
+
+	dashboard.bind(programmaticSlider, programmaticChart);
+	dashboard.draw(data);
+
+	changeHigh = function() {
+		programmaticSlider.setState({'lowValue': 4, 'highValue': 5});
+		programmaticSlider.draw();
+	};
+
+	changeLow = function() {
+		programmaticSlider.setState({'lowValue': 1, 'highValue': 2});
+		programmaticSlider.draw();
+	};
+	changeRating = function() {
+		programmaticSlider.setState({'lowValue': 2, 'highValue': 4});
+		programmaticSlider.draw();
+	};
+}
+
+
+
+//FOR ENTITY WISE GRAPH'S DASHBOARD  (ENDS)//
+
+
+
+
+
+
+//FUNCTION TO DRAW ASPECT BASED GRAPH (STARTS)//
+
+var asp_data =[];
+
+function aspects_Based()
+{
+	google.charts.load("current", {packages:["corechart"]});
+	google.charts.setOnLoadCallback(draw_aspect_based);
+
+	asp_data=[];
+
+	var v = document.getElementById('entities');
+	var e = v.options[v.selectedIndex].value;
+
+	var asp_header = ['Aspects', 'Positive_Rating',{role : "style"},'Negative_Rating',{role : "style"}];
+	asp_data.push(asp_header);
+
+	var i = v.selectedIndex;
+
+	for(var j =0; j<data_original[i]['aspects'].length;j++)
+	{
+		var temp = []
+		var t1 = data_original[i]['aspects'][j]['name'];
+		var t2 = parseFloat(((data_original[i]['aspects'][j]['sentiment'])-1)*25);
+		temp.push(t1,t2,"#00ff00",100-t2,"#ff0000");
+		asp_data.push(temp);
+	}
+
+}
+
+
+
+
+
+
+function draw_aspect_based() {
+	var data = google.visualization.arrayToDataTable(asp_data);
+
+	var view = new google.visualization.DataView(data);
+	view.setColumns([0, 1,2,
+		{ calc: "stringify",
+		sourceColumn: 1,
+		type: "string",
+		role: "annotation" ,},3,
+		{ calc: "stringify",
+		sourceColumn: 3,
+		type: "string",
+		role: "annotation" },]);
+
+	var options = {
+		title: "Aspect Based Analysis",
+		
+
+
+		backgroundColor: "#ffffff",
+		height: '300px',
+		width: '100%',
+		bar: {groupWidth: "55%"},
+		legend: { position: "right" },
+
+		vAxis:{
+			title : "Aspects",
+
+		},
+		hAxis:{
+			title : "Rating(in %)",
+			viewWindow:{
+				max:1,
+				ticks: [0, .3, .6, .9, 1]
+
+			}
+
+		},
+		isStacked: 'percent',
+		colors: ['#00ff00', '#ff0000'],
+		legend:{ position : 'bottom'}
+
+
+
+	};
+	var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+	chart.draw(view, options);
+}
+
+
+//FUNCTION TO DRAW ASPECT BASED GRAPH (ENDS)
+
+
+
+//FUNCTION TO DRAW TIMELINE ANALYSIS OF ENTITY GRAPH (STARTS)//
+
+
+      		
+
+
+      		time_data =[];
+
+      function LineChart() 
+      {
+google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawLineChart);
+
+time_data =[];
+      		var v = document.getElementById('entities1');
+			var e = v.options[v.selectedIndex].value;
+
+			var time_header =['Year', 'Rating'];
+			time_data.push(time_header);
+
+			var i = v.selectedIndex;
+
+	
+
+			for(var j =0; j<data_progress_timeline[i]['progress'].length;j++)
+	{
+		var temp = []
+		var t1 = data_progress_timeline[i]['progress'][j]['year'];
+		var t2 = parseFloat((data_progress_timeline[i]['progress'][j]['sentiment']));
+		temp.push(t1,t2);
+		time_data.push(temp);
+	}
+}
+
+
+function drawLineChart()
+{
+        var data = google.visualization.arrayToDataTable(time_data);
+
+        var options = {
+          title: 'Timeline_Analysis',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          height : '100%',
+          width : '100%',
+          backgroundColor: "#ffffff",
+          hAxis:{
+			title : "Years",
+				},
+		  vAxis:{
+		  	title : "Rating"
+		  }		
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('Timeline_chart'));
+
+        chart.draw(data, options);
+      }
+
+////FUNCTION TO DRAW TIMELINE ANALYSIS OF ENTITY GRAPH  (ENDS)//
+
+
+
+
+
+// ///SUGGESTION-BOX////
+function SuggestionBox()
+{
+	var entity = document.getElementById('entities2');
+	var v = entity.options[entity.selectedIndex].value;
+	
+	var x = document.getElementById("entity_suggestion");
+	x.innerHTML = "";	
+	
+	for (var j = 0; j < SUGGESTION_DATA[v].length; j++) 
+	{
+		var t = j+1;
+		x.innerHTML += " &nbsp;"+ t+". "+SUGGESTION_DATA[v][j]+"<hr>";
+	  
+	}
+}
+
+
+
+
+
+/////--------------NIGHT_MODE (M)--------------///////////
+
+function darkMode() {
+   var element = document.body;
+   element.classList.toggle("dark-mode");
+}
+        
+   
+$(window).resize
+(function(){
+  drawLineChart();
+  draw_aspect_based();
+    drawPieChart();
+    drawEntityGraph();
+    aspects_Based();
+}
+                );
+        
+
+
+
+
+</script>
+
+
+<!-- //////////////////////////////////////////////////////////////////// ***CSS***///////////////////////////////////////////////////////// -->
+
+<style>
+
+	.dark-mode {
+  background-color: black;
+  color: white;
+}
+	.row{
+		margin: 0px;
+		padding: 5px;
+
+	}
+	.r{
+		border: 1px solid #C0C0C0;	
+	}
+	.Img1
+	{
+		height: 10px;
+		width: 10px;
+		
+	}
+
+	
+
+	#e_s
+	{
+		overflow: auto;
+		height: 300px;
+		border: 1px solid #C0C0C0;
+	}
+	
+.chart-title{
+color: #8c8c8c;
+font-size: 22px;
+font-weight: bold;
+}
+</style>
+</head>
+
+
+
+
+
+
+
+
+<!-- /////////////////////////////////////////////////////////////BODY////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+
+<body onload="initial()">
+	
+<div class="container">
+
+<table class="table table-borderless table-responsive">
+	<tbody>
+		<td>       <button class= "Img1btn"onclick="darkMode()"><img src="{{url_for('static', filename='Images/moon.jpeg')}}" alt="moon" class= "Img1" ></button></td>
+		<td style="text-align: right;">
+		<a href="{{url_for('viewDownloadableFiles', fd_id = fd_id)}}" target = "_blank"><button>Download Analysis/Result Files</button></a>
+		</td>
+	</tbody>
+</table>
+
+		<div class="row r">
+			<div class="col-sm-4 col-md-4" style="border-right: 1px solid #C0C0C0" > 
+				<br>
+				<font  size="4" class="chart-title"><center>Overall Sentiment<br></font>
+				<br>
+				<center><p>The document has an overall sentiment score of - </p></center>
+				<font color="#fc8200" size="12"><b><span id="overall_sentiment"> </span> / 5 </b></center></font>
+				<center><p>Hint: 1- Highly Negative, 3- Neutral, 5- Highly Positive</p></center>
+				<br>
+				<center><p>Doughnut Chart Representation - </p></center>
+				<div id="Chart_overall"></div>
+			</div>
+
+
+			<div class="col-sm-8 col-md-8" id="entity_div">
+				<br>
+				<font  size="4" class="chart-title"><center>Entity Based Analysis</center></font>
+				<br>
+						<div class="row">
+							<div class="col-sm-4 col-md-4">
+							<button type="button" class="btn btn-primary btn-sm btn-block" onclick="changeHigh();">High Rated</button>
+							</div>
+
+							<div class="col-sm-4 col-md-4">
+							<button type="button" class="btn btn-primary btn-sm btn-block" onclick="changeLow();">Low Rated</button>
+							</div>
+
+							<div class="col-sm-4 col-md-4">
+							<button type="button" class="btn btn-primary btn-sm btn-block" onclick="changeRating();">Range 2-4</button>
+							</div>
+						</div>
+						<br>
+						<center>
+							<div id="entity_filter"></div>
+						</center>
+						<div id="entity_chart" style="height: 300px"></div>
+			</div>
+		</div>
+
+
+		<div class="row r" >
+			<div class="col-sm-7 col-md-7" style="border-right: 1px solid #C0C0C0">
+				<br>
+				<font size="4" class="chart-title"><center>Aspect Based Analysis</center></font>
+				<br>
+					<center>
+							<div class="row">
+								<div class="col-sm-4 col-md-4">
+									<p style="float:right; font:16px; color: #717171; line-height: 2.5;"><b>Choose an entity</b></p>
+								</div>
+								<div class="col-sm-8 col-md-8" style="text-align : left"> 
+										<select id="entities" class="form-control" onchange="aspects_Based()" style="width: 200px"></select>
+								</div>	
+							</div>
+
+						</center>
+				
+							<div id="barchart_values" style="height: 300px"></div>
+
+						<br>
+			</div>
+
+			<div class="col-sm-5 col-md-5">
+				<br>
+				<font size="4" class="chart-title"><center>Suggestions for Improvements</center></font>
+				<br>
+					<div id="Suggestion_div">
+								<div class="row">
+									<div class="col-sm-5 col-md-5">
+										<p style="float:right; font:16px; color: #717171; line-height: 2.5;"><b>Choose an entity</b></p>
+									</div>
+									<div class="col-sm-7 col-md-7" style="text-align : left"> 
+											<select id="entities2" class="form-control" onchange="SuggestionBox()" style="width: auto"></select>
+											
+											
+									</div>	
+								</div>
+							<div style="overflow: auto;" id = "e_s" >
+								<span id="entity_suggestion" class="row" > </span>
+							</div></div>
+							
+			</div>
+		</div>
+		<div class="row r">
+			<div class="col-sm-12 col-md-12">
+				<br>
+				<font  size="4" class="chart-title"><center>Entity Progress-Timeline Graph</center></font>
+				<br>
+				<center>
+							<div class="row">
+								<div class="col-sm-5 col-md-5">
+									<p style="float:right; font:16px; color: #717171; line-height: 2.5;"><b>Choose an entity</b></p>
+								</div>
+								<div class="col-sm-7 col-md-7" style="text-align : left"> 
+										<select id="entities1" class="form-control" onchange="LineChart()" style="width: 200px"></select>
+										
+										
+								</div>	
+							</div>
+
+
+						</center>	
+				<div id="Timeline_chart" style="height: 350px">	
+
+				</div>
+
+			</div>
+
+
+		</div>
+		
+	</div>
+	<br><br><br>
+</body>
+</html>
