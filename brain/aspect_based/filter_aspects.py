@@ -6,7 +6,7 @@ Input : List of reviews called as corpus
 Attribute object has filtered_attributes that containt the dynamically found attribute list
 """
 
-
+   
 from nltk.corpus import wordnet
 import sys
 sys.path.append("../")
