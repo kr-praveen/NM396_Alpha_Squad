@@ -13,7 +13,7 @@ from ibm_watson_access import tone_analyzer, nlu
 # Initializing the Flask
 app = Flask(__name__)
 app.secret_key = "random1"
-
+ 
 # Setting global variables
 working_dir_path = os.getcwd().replace(os.sep, "/")
 UPLOAD_TRAINING_FILES = working_dir_path+"/static/DBAlpha/TrainingDB/Files/"
